@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <div class="wrapper">
+
+            <div class="app">
+
+                <header>
+                    <div class="logo">
+
+                        <h1>Arbitrage Robot</h1>  
+                    </div>
+                                      
+                </header>
+
+                <main>
+
+                    <div class="settings">
+                        <div class="tradingON">
+                            <label for="trading">Trading:</label>
+                            <input type="checkbox" name="trading" id="trading">
+                        </div>
+                        <div class="daiCapital">
+                            <p>Your Dai Capital is: <span id="myDai"></span></p>
+                        </div>
+                        <div class="risk">
+                            <label for="risk">Risk</label>
+                            <input type="range" name="risk" id="risk" min="0" max="100" value="10">
+                        </div>
+                    </div>
+
+                    <div class="stats">
+                        <div class="arbs-available">
+                            <div class="arbs" style="display: none;">
+
+                            </div>
+                            <div class="no-arbs">
+                                <p>Currently there are no arbitrage opportunities</p>
+                            </div>
+                        </div>
+                        <div class="history">
+                            <canvas id="history"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="currencies">
+
+                    </div>
+
+                </main>
+            </div>
+        </div>
+        
+        <script src="client.js"defer></script>
+    </body>
+</html>
