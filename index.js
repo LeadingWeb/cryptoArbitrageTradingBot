@@ -35,15 +35,16 @@ const monk  = require('monk');
 const dbUrl = `localhost/kyberuniswap`;
 const db = monk(dbUrl);
 
-const dbPrices = db.get('prices');
+const dbPrices = db.get('onlyPrices');
 
 
 let trading = false;
 let daiCapital = 10;
 let risk = 0.1;
 
-
-
+let arbs = false;
+let msgArb = 'No arbs right now';
+let arbObj = {};
 
 
 let PRICES = [];
@@ -80,10 +81,7 @@ function setPrices(){
               
             },function(error, data){
 
-                let obj = {
-                    msg: `${tokens[i]}  //  ${exch[j]}`,
-                    val: parseInt(data)
-                };
+                let obj = parseInt(data);
                 pricesNow[i][j] = obj;
                 //console.log(obj);
                 PRICES = pricesNow;
@@ -115,22 +113,33 @@ function insertDb(data) {
 }
 
 function checkArbs() {
-    let arbs = false;
+    
     for(let i = 0; i < 7; i++){
         if(PRICES[i][0] * buf < PRICES[i][2]) {
             if(PRICES[i][2] != 0 && PRICES[i][2] != undefined){
                 let marge = PRICES[i][2]/PRICES[i][0];
-                console.log('Arb Opportunity SELL KYBER '+ tokens[i] + "Marge " + marge);
+                msgArb = 'Arb Opportunity SELL KYBER '+ tokens[i] + "  Marge " + marge
+                console.log(msgArb);
                 arbs = true;
+                arbObj = {
+                    token: tokens[i],
+                    marge: marge,
+                    msg: 'Buy Uniswap Sell Kyber'
+                }
                 if(trading){
                     let exposure =  getAmount(marge);
                     makeArbTrade(exposure, tokens[i], "UNISWAP", "KYBER", "KYBER")
 
                 }
             }
+        } else {
+            arbs = false;
+            arbObj = {};
+            msgArb = 'No Arbs right now';
         }
     }
     if(!arbs) {
+        
         console.log('No Arbs right now..')
     }
 }
@@ -189,6 +198,12 @@ app.post('/info', (req, res) => {
 app.get('/info', (req, res) => {
     let obj = {
         trading, daiCapital, risk
+    }
+    res.json(obj);
+})
+app.get('/arbs', (req, res) => {
+    let obj = {
+        arbs, arbObj, msgArb
     }
     res.json(obj);
 })

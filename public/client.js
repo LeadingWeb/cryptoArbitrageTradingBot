@@ -1,11 +1,24 @@
+
+
+
 const apiURL = '/prices';
+
 
 const $trading = document.getElementById('trading');
 const $myDai = document.getElementById('myDai');
 const $risk = document.getElementById('risk');
+const $arbs = document.getElementById('arbs');
+const $noArbs = document.getElementById('no-arbs');
+const $targetCoin = document.getElementById('targetCoin');
+const $targetExchange = document.getElementById('targetExchange');
+const $active = document.getElementById('active');
+const  $tokensUL = document.getElementById('tokens');
+let $tokensLi = [];
 
-const ctx = document.getElementById('history').getContext('2d');
 
+const canvas = document.getElementById('history');
+
+const ctx = canvas.getContext('2d');
 let trading = false;
 let myDai = 10;
 let risk = 0.1;
@@ -16,25 +29,83 @@ let tokens = [
     "MKR",
     "PAX",
     "REP",
-    "ZRX",
-    "SNX"
+    "ZRX"
 ];
 let pricesGraph = [];
 
 let arbs = false;
 let ALLPRICES, history;
+let aPrices = [];
+let buy = [];
+let sell = [];
+let average = [];
+
+
+$active.textContent = tokens[active];
+$myDai.textContent = '10 DAI'
+
+
 
 async function getAllPrices() {
-    let allPrices = await fetch(apiURL, {
+    let AllPrices = await fetch(apiURL, {
         method: 'GET',
     }).then(res => res.json())
-        .then(allPrices => {
+        .then((allPrices) =>  {
             ALLPRICES = allPrices;
-            graph(allPrices);
+            //console.log(allPrices);
+            //graph(allPrices);
+            
+            for(let j = 0; j < allPrices.length; j++){
+                aPrices[j] = [];
+            }
+
+            for(let j = 0; j < allPrices.length; j++){
+                               
+                
+                for(let i = 0; i < tokens.length; i++) {
+
+                    
+                    aPrices[j][i] =  {
+                        buy: allPrices[j].prices[i][0],
+                        sell: allPrices[j].prices[i][2]
+                    }
+                    //console.log(aPrices[j][i]);
+                    
+                }
+            }
+
+
+            
+            for(let i = 0; i < ALLPRICES.length; i++){
+        
+                let that = aPrices[i][active].buy
+                
+                buy[i] = that/100;
+
+                let thats = aPrices[i][active].sell
+                
+                sell[i] = thats/100;
+
+                average[i] = sell[i] / buy[i]
+            }
+            
+
+            
+            
+
+
+
+            //console.log(buy);
+            drawHistory(average);
+
+            getArbs();
+
+            //console.log(buy);
+
             return allPrices; 
         });
 
-    return await allPrices;
+    return await AllPrices;
 }
 getAllPrices();
 
@@ -56,8 +127,22 @@ async function setInfo() {
 
 //console.log(getAllPrices());
 
+(function drawTokens() {
+    for (let i = 0; i < tokens.length; i++) {
+        const li = document.createElement('li');
+        li.innerText = tokens[i];
+        $tokensLi[i] = li;
+        $tokensUL.appendChild(li);
+        styleActiveToken();
+        $tokensLi[i].addEventListener('click', (e) => {
+            active = i;
+            $active.textContent = tokens[active];
+            styleActiveToken();
+            prepareDraw();
 
-
+        })
+    }
+})();
 
 
 //change Settings
@@ -94,73 +179,67 @@ $risk.addEventListener('change', (event) => {
     return await info;
 })();
 
+getArbs();
 
 
-
-//Graph
-
-function graph(allPrices) {
-    setTimeout(() => {
-        prepareHistoryData(allPrices);
-        getBuyPrices();
-        drawHistory();
-    }, 1000);
-}
-let buyPrice;
-function prepareHistoryData(_prices) {
-    console.log(ALLPRICES.length);
-    for(let j = 0; j < ALLPRICES.length; j++){
-        pricesGraph[j] = []; 
-        for(let i = 0; i < tokens.length; i++) {
-            //console.log(_prices)
-            
-            pricesGraph[j][i] = {
-                buy: _prices[j].prices[i][0],
-                sell: _prices[j].prices[i][2]
-            }
-        }
-    }
+function prepareDraw() {
     
-    //console.log(pricesGraph);
     
-}
-
-
-function getBuyPrices() {
-    let buy = [];
     for(let i = 0; i < ALLPRICES.length; i++){
+        
+        let that = aPrices[i][active].buy
+        
+        buy[i] = that/100;
 
-        let that = pricesGraph[i][active].buy
-        buy[i] = that['val']
-        //console.log(buy[i]);
+        let thats = aPrices[i][active].sell
+        
+        sell[i] = thats/100;
+
+        average[i] = sell[i] / buy[i]
     }
-    buyPrice = buy;
-    console.log(buy);
-    return buy;
+    
+    //console.log(buy);
+    drawHistory(average);
 }
-function drawHistory() {
-    history = new Chart(ctx, {
+
+function drawHistory(average) {
+    let xLabel = [];
+    for(let i =0; i < buy.length; i++) {
+        xLabel[i] = i;
+    }
+    //console.log(buy);
+    var mixedChart = new Chart(ctx, {
         type: 'line',
         data: {
-            
             datasets: [{
-                label: 'Price',
-                data: buyPrice,
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                ],
-                borderWidth: 1
-            }]
+                label: 'SELL PRICE / BUY PRICE',
+                data: average,
+                backgroundColor: colors.main[1],
+                // this dataset is drawn below
+                order: 1
+            }],
+            labels: xLabel
         },
-        options: {
+        options: { 
+            legend: {
+                labels: {
+                    fontColor: "white",
+                    fontSize: 18
+                }
+            },
             scales: {
                 yAxes: [{
                     ticks: {
-                        beginAtZero: true
+                        fontColor: "white",
+                        fontSize: 18
+                    }
+                }],
+                xAxes: [{
+                    ticks: {
+                        fontColor: "white",
+                        fontSize: 14,
+                        beginAtZero: true,
+                        stepSize: 0.1
                     }
                 }]
             }
@@ -168,3 +247,48 @@ function drawHistory() {
     });
 }
 
+
+function update() {
+    getArbs();
+    setInterval(update, 60*1000);
+}
+
+async function getArbs() {
+    let Arbs = await fetch('arbs', {
+        method: 'GET',
+    }).then(res => res.json())
+        .then((arbs) =>  {
+            //console.log(arbs);
+            if (arbs.arbs == true) {
+                
+                $noArbs.style.display = 'none';
+                $arbs.style.display = 'block';
+
+                $targetCoin.textContent = arbs.arbObj.token;
+                $targetExchange.textContent = "Kyber";
+                
+
+
+                const whichToken = (element) => element = arbs.arbObj.token;
+                let index = tokens.findIndex(whichToken);
+                console.log(index, arbs.arbObj);
+                active = index;
+                $active.textContent = tokens[active];
+                styleActiveToken()
+                prepareDraw();
+
+            } else {
+                console.log('No Arbs');
+                $noArbs.style.display = 'block';
+                $arbs.style.display = 'none';
+            }
+        })
+}
+
+
+function styleActiveToken() {
+    for(let i = 0; i < $tokensLi.length; i++){
+        $tokensLi[i].id = '';
+    }
+    $tokensLi[active].id = 'currentToken';
+}

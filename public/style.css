@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,300&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Roboto', sans-serif;
+
+    --color0:#040f0f;
+    --color1: #248232;
+    --color2: #2ba84a;
+    --color3: #2d3a3a;
+    --color4: #fcfffc;
+    --color5:#040f0fea;
+    --color6:#040f0fde;
+    --color7: #fcfffc8e;
+
+    background: var(--color0);
+}
+
+.wrapper {
+    max-width: 1200px;
+    margin: 20px auto;
+
+    background-color: var(--color4);
+
+    border-radius: 1%;
+
+    border: 3px solid var(--color1);
+    box-shadow: 4px 4px 4px var(--color7);
+}
+
+header{
+    margin: 0;
+    
+    padding: 20px;
+    background: var(--color5);
+}
+
+h1{
+    font-size: 2.3rem;
+    display: inline-block;
+    margin: 5px;
+    padding: 10px;
+    color: var(--color1);
+    text-shadow: 3px 3px 3px var(--color5);
+}
+
+#logo{
+    font-size: 2rem;
+    color: var(--color1);
+    padding: 10px;
+    border-radius: 50%;
+    border: 2px solid #ffffff00;
+    transition: 0.6s ease-in-out;
+}
+#logo:hover{
+    border: 2px solid var(--color1);
+    padding: 10px;
+}
+
+.settings{
+    margin: 0;
+    padding: 15px;
+    font-size: 1.5rem;
+
+    color: var(--color4);
+    border-top: 1px solid var(--color1);
+    border-bottom: 1px solid var(--color1);
+    background: var(--color6);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.activeToken{
+    
+    padding: 15px;
+    background: var(--color6);
+    border-top: 1px solid var(--color1);
+    border-bottom: 1px solid var(--color1);
+}
+.activeToken ul {
+    height: 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.activeToken ul li{
+    list-style: none;
+    font-size: 1.4rem;
+    padding: 15px;
+    border-radius: 50%;
+    border: 2px solid #ffffff00;
+
+    color: var(--color4);
+    transition: 0.6s ease-in-out;
+}
+
+#currentToken{
+    border: 2px solid var(--color1);
+}
+
+.activeToken ul li:hover{
+    cursor: pointer;
+    border: 2px solid var(--color1);
+}
+
+.arbs-available{
+    height: 100px;
+    color: var(--color4);
+    
+    background: var(--color5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+h2{
+    
+    margin: 10px;
+    padding: 10px;
+    color: var(--color1);
+
+}
+.history{
+    
+    padding: 10px 20px;
+    background: var(--color5);
+}
+
+.this-active{
+    border: 2px;
+}

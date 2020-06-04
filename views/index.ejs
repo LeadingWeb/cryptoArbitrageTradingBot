@@ -9,8 +9,10 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="style.css">
         <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+        <script src="colors.js"></script>
+        <script src="https://kit.fontawesome.com/d52b01c1d7.js" crossorigin="anonymous"></script>
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -22,7 +24,7 @@
 
                 <header>
                     <div class="logo">
-
+                        <i id="logo" class="fas fa-hand-holding-usd"></i>
                         <h1>Arbitrage Robot</h1>  
                     </div>
                                       
@@ -36,7 +38,7 @@
                             <input type="checkbox" name="trading" id="trading">
                         </div>
                         <div class="daiCapital">
-                            <p>Your Dai Capital is: <span id="myDai"></span></p>
+                            <p>Dai Capital: <span id="myDai"></span></p>
                         </div>
                         <div class="risk">
                             <label for="risk">Risk</label>
@@ -45,21 +47,36 @@
                     </div>
 
                     <div class="stats">
-                        <div class="arbs-available">
-                            <div class="arbs" style="display: none;">
 
+                        <div class="arbs-available">
+                            <div id="arbs" style="display: none;">
+                                <h3>Arbitrage Opportunity available!</h3>
+                                <p>Swap from DAI to <span id="targetCoin"></span></p>
+                                <p>Swap from Uniswap to <span id="targetExchange"></span></p>
                             </div>
-                            <div class="no-arbs">
+                            <div id="no-arbs">
                                 <p>Currently there are no arbitrage opportunities</p>
                             </div>
                         </div>
+
+                        <div class="activeToken">
+
+                            <ul id="tokens">
+
+                            </ul>
+                            
+                        </div>
+
+                        
                         <div class="history">
+                            <h2>The Arbitrage History of <span id="active"></span></h2>
                             <canvas id="history"></canvas>
                         </div>
                     </div>
 
                     <div class="currencies">
 
+                        
                     </div>
 
                 </main>
