@@ -14,8 +14,8 @@ body{
     --color2: #2ba84a;
     --color3: #2d3a3a;
     --color4: #fcfffc;
-    --color5:#040f0fea;
-    --color6:#040f0fde;
+    --color5:#040f0fad;
+    --color6:#040f0f75;
     --color7: #fcfffc8e;
 
     background: var(--color0);
@@ -25,7 +25,7 @@ body{
     max-width: 1200px;
     margin: 20px auto;
 
-    background-color: var(--color4);
+    background: var(--color7);
 
     border-radius: 1%;
 
@@ -55,6 +55,7 @@ h1{
     padding: 10px;
     border-radius: 50%;
     border: 2px solid #ffffff00;
+    text-shadow: 3px 3px 3px var(--color5);
     transition: 0.6s ease-in-out;
 }
 #logo:hover{
@@ -78,12 +79,14 @@ h1{
 }
 
 .activeToken{
-    
+    position: relative;
     padding: 15px;
     background: var(--color6);
     border-top: 1px solid var(--color1);
     border-bottom: 1px solid var(--color1);
 }
+
+
 .activeToken ul {
     height: 80px;
     display: flex;
@@ -115,17 +118,19 @@ h1{
 .arbs-available{
     height: 100px;
     color: var(--color4);
-    
+    position: relative;
     background: var(--color5);
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 h2{
     
     margin: 10px;
     padding: 10px;
-    color: var(--color1);
+    color: var(--color1 );
+    text-shadow: 3px 3px 3px var(--color5);
 
 }
 .history{
@@ -137,3 +142,129 @@ h2{
 .this-active{
     border: 2px;
 }
+
+
+
+
+
+
+
+
+/*Check Box*/
+
+/* Customize the label (the container) */
+.tradingON {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+
+  .tradingON input {
+    
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+
+  .checkmark {
+    position: absolute;
+    top: 0;
+    
+    height: 25px;
+    width: 25px;
+    background-color: var(--color4);
+    border-radius: 50%;
+    border: 2px solid var(--color1);
+  }
+  
+  .checkmark:hover{
+    background-color: var(--color4);
+    cursor: pointer;
+  }
+
+  .tradingON:hover input ~ .checkmark {
+    background-color: var(--color1);
+    cursor: pointer;
+  }
+  
+
+  .tradingON input:checked ~ .checkmark {
+    background-color: var(--color1);
+    border: 2px solid var(--color4);
+  }
+  
+
+  .tradingON:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  .tradingON input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+
+  .tradingON .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid var(--color4);
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
+
+
+  /*Slider*/
+
+
+  
+
+  #risk {
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--color4);
+    outline: none; 
+    -webkit-transition: .6s;
+    border: 2px solid var(--color1);
+    transition: .6s;
+  }
+  
+
+  #risk:hover {
+    opacity: 1; 
+    background: var(--color1);
+    border: 2px solid var(--color4);
+  }
+
+  #risk::-webkit-slider-thumb {
+    -webkit-appearance: none; 
+    appearance: none;
+    width: 20px; 
+    height: 20px; 
+    background: var(--color4);
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid var(--color1);
+  }
+  
+  #risk::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--color2);
+    cursor: pointer;
+  }
+  

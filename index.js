@@ -16,7 +16,7 @@ const flaAbi = abi.flash;
 
 
 
-const PORT = 5000;
+const PORT = 5002;
 const server = app.listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 
